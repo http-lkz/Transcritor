@@ -3,25 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Translate Pernambuc</title>
+    <title>TrCript</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="/static/dudz.ico" type="image/x-icon">
-    <link rel="icon" type="image/x-icon" href="/static/dudz.ico">
+    <link rel="shortcut icon" href="dudz.ico" type="image/x-icon">
+    <link rel="icon" type="image/x-icon" href="dudz.ico">
     <!-- CSS -->
     <link rel="stylesheet" href="/static/style.css">
+    <!-- Fontes do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Socket.IO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Transcrever Pernambas</h1>
+        <header>
+            <h1>Transcritor</h1>
+            <p class="subtitle">Converta teus áudios</p>
+        </header>
         
         <div class="upload-container">
             <form id="uploadForm" enctype="multipart/form-data">
-                <input type="file" id="audioFile" name="audio" accept=".wav,.mp3,.ogg" required>
+                <input type="file" id="audioFile" name="audio" accept=".wav,.mp3,.ogg,.m4a" required>
                 <label for="audioFile" class="file-label">
                     <span id="fileName">Selecione um arquivo de áudio</span>
-                    <div class="upload-button">Escolher Arquivo</div>
+                    <div class="upload-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                            <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                        </svg>
+                        Escolher Arquivo
+                    </div>
                 </label>
-                <button type="submit" class="submit-button">Transcrever Áudio</button>
+                <button type="submit" class="submit-button neon-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M11.729 5.055a.5.5 0 0 0-.52.038L8.5 7.028V5.5a.5.5 0 0 0-.79-.407L5 7.028V5.5a.5.5 0 0 0-1 0v5a.5.5 0 0 0 1 0V8.972l2.71 1.935a.5.5 0 0 0 .79-.407V8.972l2.71 1.935A.5.5 0 0 0 12 10.5v-5a.5.5 0 0 0-.271-.445z"/>
+                    </svg>
+                    Transcrever
+                </button>
             </form>
         </div>
         
@@ -30,18 +49,90 @@
         <div class="result-container hidden" id="resultContainer">
             <h2>Texto Transcrito:</h2>
             <div class="transcription" id="transcriptionText"></div>
-            <button class="copy-button" id="copyButton">Copiar Texto</button>
+            <button class="copy-button neon-button" id="copyButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                </svg>
+                Copiar Texto
+            </button>
         </div>
+        
+        <!-- Seção de Geração de Senha -->
+        <div class="password-section">
+            <button id="generatePassword" class="neon-button">Key</button>
+            <p id="passwordDisplay" class="hidden"></p>
+            <button id="copyPassword" class="neon-button hidden">Copiar</button>
+        </div>
+        
+        <!-- Seção de Notificação (nova) -->
+        <div class="notification-section">
+            <button id="notificationButton" class="neon-button notification-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z"/>
+                </svg>
+                Enviar Notificação
+            </button>
+            <p id="notificationStatus" class="hidden"></p>
+        </div>
+        
+        <!-- Elemento de áudio (oculto) -->
+        <audio id="notificationSound" preload="auto">
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3" type="audio/mpeg">
+        </audio>
     </div>
 
     <script>
-        // Atualiza o nome do arquivo selecionado
+        // Conecta ao SocketIO
+        const socket = io();
+        
+        // Configura o áudio de notificação
+        const notificationSound = document.getElementById('notificationSound');
+        
+        // Quando receber o comando para tocar o som
+        socket.on('play_sound', function() {
+            notificationSound.currentTime = 0; // Reinicia o áudio
+            notificationSound.play().catch(e => console.log("Erro ao reproduzir som:", e));
+            
+            // Mostra uma notificação visual
+            const notificationStatus = document.getElementById('notificationStatus');
+            notificationStatus.textContent = "Nova notificação recebida!";
+            notificationStatus.classList.remove('hidden');
+            notificationStatus.style.color = "var(--neon-cyan)";
+            
+            // Remove após 3 segundos
+            setTimeout(() => {
+                notificationStatus.classList.add('hidden');
+            }, 3000);
+        });
+        
+        // Configura o botão de notificação
+        document.getElementById('notificationButton').addEventListener('click', function() {
+            fetch('/trigger_notification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            
+            // Feedback visual
+            const notificationStatus = document.getElementById('notificationStatus');
+            notificationStatus.textContent = "Notificação enviada para todos os usuários!";
+            notificationStatus.classList.remove('hidden');
+            notificationStatus.style.color = "var(--neon-blue)";
+            
+            // Remove após 3 segundos
+            setTimeout(() => {
+                notificationStatus.classList.add('hidden');
+            }, 3000);
+        });
+
+        // Upload de áudio e transcrição (código existente)
         document.getElementById('audioFile').addEventListener('change', function(e) {
             const fileName = e.target.files[0] ? e.target.files[0].name : 'Selecione um arquivo de áudio';
             document.getElementById('fileName').textContent = fileName;
         });
 
-        // Envio do formulário
         document.getElementById('uploadForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -63,7 +154,7 @@
 
             const formData = new FormData();
             formData.append('audio', fileInput.files[0]);
-
+            
             fetch('/upload', {
                 method: 'POST',
                 body: formData
@@ -86,20 +177,24 @@
             });
         });
 
-        // Copiar texto
-        document.getElementById('copyButton').addEventListener('click', function() {
-            const text = document.getElementById('transcriptionText').textContent;
-            navigator.clipboard.writeText(text)
-                .then(() => {
-                    const button = document.getElementById('copyButton');
-                    button.textContent = "Copiado!";
-                    setTimeout(() => {
-                        button.textContent = "Copiar Texto";
-                    }, 2000);
-                })
-                .catch(err => {
-                    console.error('Erro ao copiar:', err);
-                });
+        // Geração de senha (código existente)
+        document.getElementById('generatePassword').addEventListener('click', function() {
+            fetch('/generate_password')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('passwordDisplay').textContent = data.password;
+                document.getElementById('passwordDisplay').classList.remove('hidden');
+                document.getElementById('copyPassword').classList.remove('hidden');
+            })
+            .catch(error => alert('Erro ao gerar senha: ' + error));
+        });
+
+        // Copiar senha (código existente)
+        document.getElementById('copyPassword').addEventListener('click', function() {
+            const passwordText = document.getElementById('passwordDisplay').textContent;
+            navigator.clipboard.writeText(passwordText)
+                .then(() => alert('Senha copiada para a área de transferência!'))
+                .catch(err => console.error('Erro ao copiar:', err));
         });
     </script>
 </body>
