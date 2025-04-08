@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translate Pernambuc</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/static/dudz.ico" type="image/x-icon">
+    <link rel="icon" type="image/x-icon" href="/static/dudz.ico">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Transcrever Pernambas</h1>
+        
+        <div class="upload-container">
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" id="audioFile" name="audio" accept=".wav,.mp3,.ogg" required>
+                <label for="audioFile" class="file-label">
+                    <span id="fileName">Selecione um arquivo de áudio</span>
+                    <div class="upload-button">Escolher Arquivo</div>
+                </label>
+                <button type="submit" class="submit-button">Transcrever Áudio</button>
+            </form>
+        </div>
+        
+        <div class="status" id="status"></div>
+        
+        <div class="result-container hidden" id="resultContainer">
+            <h2>Texto Transcrito:</h2>
+            <div class="transcription" id="transcriptionText"></div>
+            <button class="copy-button" id="copyButton">Copiar Texto</button>
+        </div>
+    </div>
+
+    <script>
+        // Atualiza o nome do arquivo selecionado
+        document.getElementById('audioFile').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'Selecione um arquivo de áudio';
+            document.getElementById('fileName').textContent = fileName;
+        });
+
+        // Envio do formulário
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('audioFile');
+            const statusDiv = document.getElementById('status');
+            const resultContainer = document.getElementById('resultContainer');
+            const transcriptionDiv = document.getElementById('transcriptionText');
+            const copyButton = document.getElementById('copyButton');
+            
+            if (!fileInput.files.length) {
+                statusDiv.textContent = "Por favor, selecione um arquivo de áudio";
+                statusDiv.className = "status error";
+                return;
+            }
+
+            statusDiv.textContent = "Processando áudio...";
+            statusDiv.className = "status processing";
+            resultContainer.classList.add('hidden');
+
+            const formData = new FormData();
+            formData.append('audio', fileInput.files[0]);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'error') {
+                    throw new Error(data.error);
+                }
+                
+                transcriptionDiv.textContent = data.text;
+                resultContainer.classList.remove('hidden');
+                statusDiv.textContent = "Transcrição concluída com sucesso!";
+                statusDiv.className = "status success";
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                statusDiv.textContent = "Erro: " + error.message;
+                statusDiv.className = "status error";
+            });
+        });
+
+        // Copiar texto
+        document.getElementById('copyButton').addEventListener('click', function() {
+            const text = document.getElementById('transcriptionText').textContent;
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    const button = document.getElementById('copyButton');
+                    button.textContent = "Copiado!";
+                    setTimeout(() => {
+                        button.textContent = "Copiar Texto";
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Erro ao copiar:', err);
+                });
+        });
+    </script>
+</body>
+</html>
