@@ -117,7 +117,7 @@ if __name__ == '__main__':
     print("- Sistema de notificação sonora em tempo real")
     print("\nEndereços de acesso:")
     print("→ Este computador: http://localhost:5000")
-    print("→ Na rede corporativa: http://10.10.40.62:5000")
+    print("→ Na rede corporativa: http://10.10.40.00:5000")
     print("\nAguardando conexões... (Ctrl+C para encerrar)\n")
     
     app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
