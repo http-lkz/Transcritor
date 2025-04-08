@@ -11,7 +11,7 @@ from datetime import datetime
 
 # Configurações do servidor
 app = Flask(__name__, static_folder='static', template_folder='templates')
-app.config['UPLOAD_FOLDER'] = r'P:\Eduardo Silveira\uploads'
+app.config['UPLOAD_FOLDER'] = r'P:\directory\uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'wav', 'mp3', 'ogg'}
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 app.config['SECRET_KEY'] = 'sua_chave_secreta_aqui'  # Necessário para SocketIO
