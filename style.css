@@ -1,24 +1,51 @@
+:root {
+    --dark-blue: #0a192f;
+    --neon-blue: #00d8ff;
+    --neon-cyan: #00f7ff;
+    --neon-purple: #6e00ff;
+    --container-bg: rgba(10, 25, 47, 0.85);
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f7fa;
+    font-family: 'Poppins', sans-serif;
+    background: var(--dark-blue);
+    min-height: 100vh;
     margin: 0;
     padding: 20px;
-    color: #333;
+    color: #ccd6f6;
+    line-height: 1.6;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(0, 216, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(110, 0, 255, 0.1) 0%, transparent 50%);
 }
 
 .container {
     max-width: 800px;
-    margin: 0 auto;
-    background: white;
+    margin: 30px auto;
+    background: var(--container-bg);
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
 h1 {
-    color: #2c3e50;
-    text-align: center;
-    margin-bottom: 30px;
+    color: #e6f1ff;
+    margin-bottom: 10px;
+    font-size: 2.2rem;
+    text-shadow: 0 0 10px rgba(0, 216, 255, 0.3);
+}
+
+.subtitle {
+    color: #8892b0;
+    margin-top: 0;
+    font-size: 1rem;
 }
 
 .upload-container {
@@ -36,39 +63,107 @@ h1 {
 }
 
 .upload-button {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     padding: 12px 24px;
-    background-color: #3498db;
-    color: white;
+    background: transparent;
+    color: var(--neon-blue);
+    border: 2px solid var(--neon-blue);
     border-radius: 6px;
-    transition: background-color 0.3s;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 5px rgba(0, 216, 255, 0.5);
+    box-shadow: 0 0 10px rgba(0, 216, 255, 0.3), inset 0 0 5px rgba(0, 216, 255, 0.2);
 }
 
 .upload-button:hover {
-    background-color: #2980b9;
+    background: rgba(0, 216, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 216, 255, 0.5), inset 0 0 10px rgba(0, 216, 255, 0.3);
+    transform: translateY(-2px);
 }
 
 #fileName {
     display: block;
     margin-bottom: 10px;
-    color: #666;
+    color: #8892b0;
+    font-size: 0.9rem;
 }
 
-.submit-button {
-    display: block;
+.neon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     width: 100%;
-    padding: 12px;
-    background-color: #2ecc71;
+    padding: 14px;
     color: white;
     border: none;
     border-radius: 6px;
-    font-size: 16px;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    text-shadow: 0 0 5px currentColor;
 }
 
-.submit-button:hover {
-    background-color: #27ae60;
+.neon-button::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue), var(--neon-cyan));
+    background-size: 200% 200%;
+    z-index: -2;
+    border-radius: 6px;
+    animation: gradient 3s ease infinite;
+}
+
+.neon-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 25, 47, 0.8);
+    z-index: -1;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.neon-button:hover::after {
+    background: rgba(10, 25, 47, 0.6);
+}
+
+.submit-button {
+    margin-top: 10px;
+}
+
+.copy-button {
+    margin-top: 15px;
+}
+
+.neon-button:hover {
+    box-shadow: 0 0 15px currentColor;
+    transform: translateY(-2px);
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .status {
@@ -76,62 +171,127 @@ h1 {
     border-radius: 6px;
     margin-bottom: 20px;
     text-align: center;
+    font-weight: 500;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-left: 5px solid transparent;
 }
 
 .status.processing {
-    background-color: #fff3cd;
-    color: #856404;
+    color: var(--neon-cyan);
+    border-left-color: var(--neon-cyan);
+    box-shadow: 0 0 10px rgba(0, 247, 255, 0.2);
 }
 
 .status.success {
-    background-color: #d4edda;
-    color: #155724;
+    color: #00ffaa;
+    border-left-color: #00ffaa;
+    box-shadow: 0 0 10px rgba(0, 255, 170, 0.2);
 }
 
 .status.error {
-    background-color: #f8d7da;
-    color: #721c24;
+    color: #ff6b6b;
+    border-left-color: #ff6b6b;
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
 }
 
 .result-container {
     margin-top: 20px;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 6px;
-    border: 1px solid #ddd;
+    padding: 25px;
+    background-color: rgba(10, 25, 47, 0.6);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 216, 255, 0.2);
+    transition: all 0.3s ease;
 }
 
 .result-container h2 {
     margin-top: 0;
-    color: #2c3e50;
+    color: #e6f1ff;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
 }
 
 .transcription {
     white-space: pre-wrap;
     margin: 15px 0;
     padding: 15px;
-    background-color: white;
-    border: 1px solid #eee;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 216, 255, 0.1);
     border-radius: 4px;
     max-height: 300px;
     overflow-y: auto;
-}
-
-.copy-button {
-    display: block;
-    padding: 10px 15px;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.copy-button:hover {
-    background-color: #2980b9;
+    line-height: 1.7;
+    font-size: 0.95rem;
+    color: #ccd6f6;
 }
 
 .hidden {
     display: none;
+}
+
+/* Scrollbar personalizada */
+.transcription::-webkit-scrollbar {
+    width: 8px;
+}
+
+.transcription::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.transcription::-webkit-scrollbar-thumb {
+    background: var(--neon-blue);
+    border-radius: 4px;
+}
+
+.transcription::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-cyan);
+}
+
+/* Ícones SVG */
+svg {
+    vertical-align: middle;
+    filter: drop-shadow(0 0 2px currentColor);
+}
+
+/* Estilos para a seção de Geração de Senha */
+.password-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 216, 255, 0.5);
+}
+
+#passwordDisplay {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Estilos para a seção de Notificação */
+.notification-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 216, 255, 0.5);
+    text-align: center;
+}
+
+.notification-button {
+    background: linear-gradient(45deg, var(--neon-purple), var(--neon-blue));
+    width: auto;
+    display: inline-flex;
+    padding: 12px 24px;
+    margin-bottom: 10px;
+}
+
+.notification-button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 20px var(--neon-blue);
+}
+
+#notificationStatus {
+    font-size: 0.9rem;
+    margin-top: 5px;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 5px currentColor;
 }
