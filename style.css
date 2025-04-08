@@ -1,0 +1,137 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.upload-container {
+    margin-bottom: 30px;
+}
+
+.file-label {
+    display: block;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+#audioFile {
+    display: none;
+}
+
+.upload-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #3498db;
+    color: white;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+.upload-button:hover {
+    background-color: #2980b9;
+}
+
+#fileName {
+    display: block;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+    background-color: #27ae60;
+}
+
+.status {
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.status.processing {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.result-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.result-container h2 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.transcription {
+    white-space: pre-wrap;
+    margin: 15px 0;
+    padding: 15px;
+    background-color: white;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.copy-button {
+    display: block;
+    padding: 10px 15px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.copy-button:hover {
+    background-color: #2980b9;
+}
+
+.hidden {
+    display: none;
+}
