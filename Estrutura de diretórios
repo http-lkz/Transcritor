@@ -1,0 +1,27 @@
+/Project
+│
+├── app.py                  # Arquivo principal que inicia o servidor Flask <<<<<<<<<
+│
+├── /templates
+│   └── index.html          # Página HTML de interface para upload de áudio <<<<<<<<<
+│
+├── /static
+    └── style.css           # Arquivo de estilo aplicado ao index.html <<<<<<<<<
+
+
+ >>>--------------------------------------------------------------------------------------------<<<
+
+ Comunicação e Apontamentos
+|||||||||||||||||||||||||||||
+app.py é o ponto de entrada da aplicação, configurando as rotas e iniciando o servidor.
+
+A pasta /templates é usada automaticamente pelo Flask para renderizar as páginas HTML. Por isso, o index.html é chamado via render_template('index.html').
+
+A pasta /static serve arquivos estáticos como CSS e JS, acessados no HTML com:
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+rodar no terminal python app.py
+
+E fica acessível em:
+http://localhost:5000 (ou pelo IP local, ex: http://192.168.0.10:5000)
